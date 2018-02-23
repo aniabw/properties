@@ -41,18 +41,18 @@ class PropertiesController extends Controller
 		// preparing latitude and longitude based on address 
 		$address_line_1 = request('address_line_1');
 		$city = request('city');
-	    $postcode = request('postcode');
+		$postcode = request('postcode');
 		
 		$url = 'http://maps.google.com/maps/api/geocode/json?address='.urlencode($address_line_1.' '.$city.' '.$postcode);
 		
 		$client = new Client();
 		$geocodeResponse = $client->get($url)->getBody();
-        $geocodeData = json_decode($geocodeResponse);
+		$geocodeData = json_decode($geocodeResponse);
 		
 		if(!empty($geocodeData) && $geocodeData->status != 'ZERO_RESULTS' && isset($geocodeData->results)) {
 			$latitude = $geocodeData->results[0]->geometry->location->lat;
-            $longitude = $geocodeData->results[0]->geometry->location->lng;
-	    }
+			$longitude = $geocodeData->results[0]->geometry->location->lng;
+		}
 		else {
 			$latitude = 0;
 			$longitude = 0;
